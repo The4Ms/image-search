@@ -1,8 +1,44 @@
 <html>
+<head>
+	<script src="search-request.js"></script>
+	<script src="search-results.js"></script>
+	<script src="image-split.js"></script>
+	<script>
+		function onSubmitSearch(){
+			try{
+				var imageInputId = document.getElementById('image');
+				var searchImageBinary = loadSearchImageAsBinary(imageInputId);
+				var searchImageDataURI = loadSearchImageAsDataURI(imageInputId);
+
+				var searchResults = doSearchRequest(searchImageBinary);
+
+				// split the objects found in the search image 
+				for(var i=0; i<searchResults.foundObjects.length; i++){
+					var objectBounds = searchResults.foundObjects[i].bounds;
+					var splittedImageDataURI = getSubImage(image, objectBounds);
+
+					// if u want open the splitted image in a new tab
+					// window.open(splittedImageDataURI);
+					
+					// for integeration
+					// searchResults.foundObjects[i].extractedImageUrl = splittedImageDataURI;
+				}
+
+				showResults(searchResults);
+			}
+			catch(e){
+				console.log(e);
+				
+			}
+			return false;
+		}
+	</script>
+</head>
+
 <body>
 	<h2>Search by image</h2>
 	
-	<form action="rest/search" method="POST" enctype="multipart/form-data">
+	<form onsubmit="return onSubmitSearch()">
 		<input name="image" id="image" type="file" size="45" />
 		<button type="submit">Search</button>
 	</form>
