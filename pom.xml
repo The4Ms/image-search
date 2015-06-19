@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>grad.project</groupId>
-	<artifactId>webservice</artifactId>
+	<artifactId>image-search</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>webservice Maven Webapp</name>
+	<name>Image Search Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<repositories>
@@ -45,7 +45,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>webservice</finalName>
+		<finalName>image-search</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
