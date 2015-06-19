@@ -15,7 +15,7 @@
 				// split the objects found in the search image 
 				for(var i=0; i<searchResults.foundObjects.length; i++){
 					var objectBounds = searchResults.foundObjects[i].bounds;
-					var splittedImageDataURI = getSubImage(image, objectBounds);
+					var splittedImageDataURI = getSubImage(searchImageDataURI, objectBounds);
 
 					// if u want open the splitted image in a new tab
 					// window.open(splittedImageDataURI);
