@@ -3,6 +3,20 @@
 	<script src="search-request.js"></script>
 	<script src="search-results.js"></script>
 	<script src="image-split.js"></script>
+	
+
+
+	<body onload="loadSearchImageAsDataURI('salah.png'),getSubImage('salah.png',[200,0,200,150]),loadSearchImageAsBinary('salah.png')" >
+
+    <canvas id="canvas" ></canvas>
+    <canvas id="myCanvas" width="578" height="200"></canvas>
+    <canvas id="canvas1"></canvas>     
+    
+
+</body>
+     
+	
+	 
 	<script>
 		function onSubmitSearch(){
 			try{
