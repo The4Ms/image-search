@@ -1,11 +1,35 @@
 // To be implemented by salah 
 function loadSearchImageAsBinary(inputControl){
+var imgReq = new XMLHttpRequest();
+imgReq.open("GET", inputControl, true);
+imgReq.responseType = "arraybuffer";
 
+imgReq.onload = function (oEvent) {
+  var arrayBuffer = imgReq.response; 
+  if (arrayBuffer) {
+    var byteArray = new Uint8Array(arrayBuffer);
+  }
+};
+return byteArray;
 }
 
 // To be implemented by salah 
 function loadSearchImageAsDataURI(inputControl){
-
+var can = document.getElementById('canvas');
+        var ctx = can.getContext('2d');
+         
+        var img = new Image();
+		img.src = inputControl;
+        img.onload = function (){
+			
+            can.width = img.width;
+            can.height = img.height;
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+		  
+};
+       var dataURL = canvas.toDataURL(inputControl);
+       alert( dataURL.replace(/^data:image\/(png|jpg);base64,/, ""));
+	   return dataURL;
 }
 
 // To be implemented by kamaly 
