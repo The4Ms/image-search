@@ -1,4 +1,16 @@
 
+<html>
+<head>
+</head>
+<body>
+<center>
+<br> <br> <br> <br> <br> <br> <br> <br> <br> <b> Google Search<b> <br> <br> <br>
+<form method="get" action="http://www.google.com/search"> 
+<input type="text" name="q" size="31" maxlength="255" value="" /> 
+<input type="submit" value="Google Search" /> 
+</form>
+</center>
+<script>
 // To be implemented by yusuf 
 function showResults(results){
 	var foundObjects = results.foundObjects;
@@ -22,3 +34,6 @@ function showResults(results){
 		}
 	}
 }
+</script>
+</body>
+</html>
