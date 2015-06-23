@@ -19,10 +19,9 @@
 
 	<dependencies>
 	    <dependency>
-			<groupId>mhsn.kmly.yusf.salh</groupId>
+			<groupId>grad.proj</groupId>
 			<artifactId>GP</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
