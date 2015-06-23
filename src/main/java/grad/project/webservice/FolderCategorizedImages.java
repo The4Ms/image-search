@@ -18,12 +18,8 @@ public class FolderCategorizedImages implements CategorizedImages{
 
 	@Override
 	public ClassImages getClassImages(String name) {
-		File[] imagesFiles = new File(folder, name).listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return new File(dir, name).isDirectory();
-			}
-		});
+//		System.err.println(new File(folder, name).getAbsolutePath());
+		File[] imagesFiles = new File(folder, name).listFiles();
 		List<File> imagesFilesList =  Arrays.asList(imagesFiles);
 		return new ClassImages(new FilesImageList(imagesFilesList), imagesFilesList);
 	}
