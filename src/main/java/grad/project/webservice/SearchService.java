@@ -1,5 +1,8 @@
 package grad.project.webservice;
 
+import grad.proj.utils.imaging.Image;
+import grad.proj.utils.imaging.ImageLoader;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -10,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
@@ -22,36 +26,10 @@ public class SearchService {
 	public SearchResults search(@FormDataParam("image") InputStream inputImage, 
 			@FormDataParam("image") FormDataContentDisposition imageInfo){
 
-//		saveToFile(inputImage, "image.jpg");		
-		
-//		try {
-//			BufferedImage image = ImageIO.read(inputImage);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-
-		SearchResults results = new SearchResults();
-		results.setFoundObjects(Arrays.asList(new FoundObject(), new FoundObject()));
+		Image image = ImageLoader.loadImage(inputImage);
+		SearchResults results = SearchHandler.getInstance().doSearch(image);
 
 		return results;
-	}
-
-	private void saveToFile(InputStream input, String filePath){
-		try {
-			FileOutputStream out = new FileOutputStream(new File(filePath));
-			
-			byte[] bytes = new byte[1024];
-			int read = 0;
-
-			while((read = input.read(bytes)) != -1){
-				out.write(bytes, 0, read);
-			}
-
-			out.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

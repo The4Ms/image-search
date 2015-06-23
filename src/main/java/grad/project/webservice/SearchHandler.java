@@ -9,16 +9,20 @@ import grad.proj.recognition.FeatureVectorGenerator;
 import grad.proj.recognition.ImageClassifier;
 import grad.proj.utils.DataSetLoader;
 import grad.proj.utils.imaging.Image;
+import grad.proj.utils.imaging.SubImage;
 import grad.proj.utils.opencv.Loader;
 
 import java.awt.Rectangle;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class SearchHandler {
 	private DataSetLoader dataSetLoader;
 	
 	private FeatureVectorGenerator generator;
-	private FeatureVectorClassifier vecClassifier;
 	
 	private ImageClassifier classifier;
 	
@@ -35,6 +39,11 @@ public class SearchHandler {
 		
 		classifier = dataSetLoader.loadTrainedClassifier();
 		
+		if(classifier == null){
+			dataSetLoader.generateAndSave();
+			classifier = dataSetLoader.loadTrainedClassifier();			
+		}
+		
 		generator = classifier.getFeatureVectorGenerator();
 		
 		localizer = new ObjectsLocalizer(new SlidingWindowObjectLocalizer(), classifier);
@@ -44,8 +53,32 @@ public class SearchHandler {
 	}
 	
 	public SearchResults doSearch(Image image){
-
-		return null;
+		Map<String, Rectangle> objectsBounds = localizer.getObjectsBounds(image);
+		
+		List<FoundObject> foundObjects = new ArrayList<FoundObject>();
+		
+		for(Entry<String, Rectangle> boundsEntry : objectsBounds.entrySet()){
+			String classLabel = boundsEntry.getKey();
+			Rectangle bounds = boundsEntry.getValue();
+			Image objectImage = new SubImage(image, bounds.x, bounds.y, bounds.width, bounds.height);
+			
+			ClassImages classImages = retrievalImages.getClassImages(classLabel);
+			
+			List<Integer> topMatches = matcher.match(objectImage, classImages.getImages(), 5);
+			List<String> topMatchesPaths = classImages.getPathFor(topMatches);
+			
+			FoundObject obj = new FoundObject();
+			obj.setClassName(classLabel);
+			obj.setBounds(bounds);
+			obj.setSimilarImagesPaths(topMatchesPaths);
+			
+			foundObjects.add(obj);
+		}
+		
+		SearchResults results = new SearchResults();
+		results.setFoundObjects(foundObjects);
+		
+		return results;
 	}
 	
 	

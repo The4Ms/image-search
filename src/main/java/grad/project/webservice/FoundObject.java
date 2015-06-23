@@ -6,6 +6,14 @@ import java.util.List;
 public class FoundObject {
 	private Rectangle bounds;
 	private List<String> similarImagesPaths;
+	private String className;
+	
+	public String getClassName() {
+		return className;
+	}
+	public void setClassName(String className) {
+		this.className = className;
+	}
 	
 	public Rectangle getBounds() {
 		return bounds;
