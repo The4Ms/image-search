@@ -11,6 +11,7 @@ import grad.proj.utils.DataSetLoader;
 import grad.proj.utils.imaging.Image;
 import grad.proj.utils.opencv.Loader;
 
+import java.awt.Rectangle;
 import java.io.File;
 
 public class SearchHandler {
@@ -24,8 +25,10 @@ public class SearchHandler {
 	private ObjectsLocalizer localizer;
 	
 	private ImageMatcher matcher;
+	
+	private CategorizedImages retrievalImages;
 		
-	public void init(String datasetFolder){
+	public void init(String datasetFolder, String retrievalImagesFolder){
 		Loader.load();
 		
 		dataSetLoader = new DataSetLoader(new File(datasetFolder));
@@ -37,9 +40,11 @@ public class SearchHandler {
 		localizer = new ObjectsLocalizer(new SlidingWindowObjectLocalizer(), classifier);
 		
 		matcher = new ImageMatcher(generator, new MeanSquareErrorMatcher());
+		retrievalImages = new FolderCategorizedImages(new File(retrievalImagesFolder));
 	}
 	
 	public SearchResults doSearch(Image image){
+
 		return null;
 	}
 	
