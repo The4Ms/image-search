@@ -60,6 +60,9 @@ public class SearchHandler {
 		for(Entry<String, Rectangle> boundsEntry : objectsBounds.entrySet()){
 			String classLabel = boundsEntry.getKey();
 			Rectangle bounds = boundsEntry.getValue();
+			
+			System.err.println(classLabel + " " + bounds.toString());
+			
 			Image objectImage = new SubImage(image, bounds.x, bounds.y, bounds.width, bounds.height);
 			
 			ClassImages classImages = retrievalImages.getClassImages(classLabel);
@@ -69,7 +72,10 @@ public class SearchHandler {
 			
 			FoundObject obj = new FoundObject();
 			obj.setClassName(classLabel);
-			obj.setBounds(bounds);
+			obj.setX(bounds.x);
+			obj.setY(bounds.y);
+			obj.setWidth(bounds.width);
+			obj.setHeight(bounds.height);
 			obj.setSimilarImagesPaths(topMatchesPaths);
 			
 			foundObjects.add(obj);
