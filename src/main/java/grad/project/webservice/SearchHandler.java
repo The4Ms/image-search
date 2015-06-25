@@ -1,12 +1,12 @@
 package grad.project.webservice;
 
 import grad.proj.localization.ObjectsLocalizer;
-import grad.proj.localization.impl.SlidingWindowObjectLocalizer;
+import grad.proj.localization.impl.BranchAndBoundObjectLocalizer;
+import grad.proj.localization.impl.MaxRectangleQualityFunction;
 import grad.proj.matching.ImageMatcher;
 import grad.proj.matching.MeanSquareErrorMatcher;
-import grad.proj.recognition.FeatureVectorClassifier;
-import grad.proj.recognition.FeatureVectorGenerator;
-import grad.proj.recognition.ImageClassifier;
+import grad.proj.classification.FeatureVectorGenerator;
+import grad.proj.classification.ImageClassifier;
 import grad.proj.utils.DataSetLoader;
 import grad.proj.utils.imaging.Image;
 import grad.proj.utils.imaging.SubImage;
@@ -46,7 +46,7 @@ public class SearchHandler {
 		
 		generator = classifier.getFeatureVectorGenerator();
 		
-		localizer = new ObjectsLocalizer(new SlidingWindowObjectLocalizer(), classifier);
+		localizer = new ObjectsLocalizer(new BranchAndBoundObjectLocalizer(new MaxRectangleQualityFunction()), classifier);
 		
 		matcher = new ImageMatcher(generator, new MeanSquareErrorMatcher());
 		retrievalImages = new FolderCategorizedImages(new File(retrievalImagesFolder));
