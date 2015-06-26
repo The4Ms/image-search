@@ -4,45 +4,31 @@
 	<script src="search-results.js"></script>
 	<script src="image-split.js"></script>
 	
-
-
-	<body onload="loadSearchImageAsDataURI('salah.png'),getSubImage('salah.png',[200,0,200,150]),loadSearchImageAsBinary('salah.png')" >
-
-    <canvas id="canvas" ></canvas>
-    <canvas id="myCanvas" width="578" height="200"></canvas>
-    <canvas id="canvas1"></canvas>     
-    
-
-</body>
-     
-	
-	 
 	<script>
 		function onSubmitSearch(){
 			try{
-				var imageInputId = document.getElementById('image');
-				var searchImageBinary = loadSearchImageAsBinary(imageInputId);
-				var searchImageDataURI = loadSearchImageAsDataURI(imageInputId);
+				var imageInputControl = document.getElementById('image');
+				var searchImage = new Image();
 
-				var searchResults = doSearchRequest(searchImageBinary);
+				loadSearchImageAsDataURI(imageInputControl, searchImage, function(){
 
-				// split the objects found in the search image 
-				for(var i=0; i<searchResults.foundObjects.length; i++){
-					var objectBounds = searchResults.foundObjects[i].bounds;
-					var splittedImageDataURI = getSubImage(searchImageDataURI, objectBounds);
+					// send request to the server
+					doSearchRequest(imageInputControl, function(searchResults){
 
-					// if u want open the splitted image in a new tab
-					// window.open(splittedImageDataURI);
-					
-					// for integeration
-					// searchResults.foundObjects[i].extractedImageUrl = splittedImageDataURI;
-				}
+						// split the objects found in the search image 
+						for(var i=0; i<searchResults.foundObjects.length; i++){
+							var objectBounds = searchResults.foundObjects[i];
+							var splittedImageDataURI = getSubImage(searchImage, objectBounds);
 
-				showResults(searchResults);
+							searchResults.foundObjects[i].extractedImageUrl = splittedImageDataURI;
+						}
+
+						showResults(searchResults);
+					});
+				});
 			}
 			catch(e){
 				console.log(e);
-				
 			}
 			return false;
 		}
@@ -57,13 +43,14 @@
 		<button type="submit">Search</button>
 	</form>
 
+	<div id="results">
+	</div>
+
 	<h2>USED IN TESTING THE SERVICE AND WILL BE REMOVED</h2>
 	
 	<form action="rest/search" method="POST" enctype="multipart/form-data">
 		<input name="image" id="image" type="file" size="45" />
 		<button type="submit">Search</button>
 	</form>
-
-
 </body>
 </html>
