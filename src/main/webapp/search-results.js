@@ -12,30 +12,30 @@ function showResults(results){
 	for(var i=0; i<foundObjects.length; i++){
 		var object = foundObjects[i];
 
-		var type = object.type;
+		var className = object.className;
 		var extractedImageUrl = object.extractedImageUrl;
-		var similarImagesUrls  = object.similarImagesUrls;
+		var similarImagesUrls  = object.similarImagesPaths;
 
-		var showData = document.createElement('div');
+		var singleResultTag = document.createElement('div');
 		
-		var typeData = document.createElement('h1');
-		typeData.innerHTML = type;
-		showData.appendChild(typeData);
+		var classNameTag = document.createElement('h1');
+		classNameTag.innerHTML = className;
+		singleResultTag.appendChild(classNameTag);
 		
-		var extractedimg = document.createElement('img');
-		extractedimg.src = extractedImageUrl;
-		showData.appendChild(extractedimg);
+		var extractedImgTag = document.createElement('img');
+		extractedImgTag.src = extractedImageUrl;
+		singleResultTag.appendChild(extractedImgTag);
 
-		var typeData = document.createElement('h2');
-		typeData.innerHTML = 'Similar images';
-		showData.appendChild(typeData);
+		var similarLabelTag = document.createElement('h2');
+		similarLabelTag.innerHTML = 'Similar images';
+		singleResultTag.appendChild(similarLabelTag);
 		
 		for(var j=0; j<similarImagesUrls.length; j++){
 			var similarImg = document.createElement('img');
-			similarImg.src = similarImagesUrls[i];
-			showData.appendChild(similarImg);
+			similarImg.src = similarImagesUrls[j];
+			singleResultTag.appendChild(similarImg);
 		}
 		
-		results.appendChild(showData);	
+		results.appendChild(singleResultTag);
 	}
 }

@@ -37,8 +37,10 @@ public class SearchHandler {
 
 	private DB db;
 
-	public void init(String datasetFolder, String retrievalImagesFolder){
+	public void init(String datasetFolder, String retrievalImagesPath){
 		Loader.load();
+		
+		retrievalImagesFolder = new File(retrievalImagesPath);
 		
 		dataSetLoader = new DataSetLoader(new File(datasetFolder));
 		
@@ -64,7 +66,7 @@ public class SearchHandler {
 
 		System.out.println("building Db");
 		if(reCreate){
-			buildRetrievalDB(new File(retrievalImagesFolder));
+			buildRetrievalDB(retrievalImagesFolder);
 		}
 		System.out.println("loaded");
 	}
@@ -112,7 +114,7 @@ public class SearchHandler {
 			
 			List<String> topMatchesPaths = new ArrayList<>();
 			for(RetrievalItem item : topMatches)
-				topMatchesPaths.add(item.getImageFile());
+				topMatchesPaths.add(retrievalImagesFolder.getName() + File.separatorChar + item.getImageFile());
 
 			FoundObject obj = new FoundObject();
 			obj.setClassName(classLabel);
@@ -134,6 +136,8 @@ public class SearchHandler {
 	
 	// Singleton access
 	private static SearchHandler instance;
+
+	private File retrievalImagesFolder;
 	
 	public static SearchHandler getInstance(){
 		if(instance == null)

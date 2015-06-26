@@ -29,31 +29,46 @@ function loadSearchImageAsDataURI(inputControl, outputImage, callback){
 
 // To be implemented by kamaly 
 function doSearchRequest(imageInputControl, callback){
+	if(imageInputControl.files.length == 0)
+		return;
+	
+	var data = new FormData(document.getElementById('searchForm'));
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', 'rest/search/', true);
+	xhr.onload = function(){
+		if(xhr.status == 200){
+			var searchResult = JSON.parse(xhr.responseText);
+			callback(searchResult);
+		}
+	};
+	xhr.send(data);
+	
 	// return dummy data to be used in implementation
 	// extractedImageUrl should be added after splitting images, it is put here so that search-results work don't wait for image-split work
-	callback({
-		'foundObjects': [{
-			'type': 'bike',
-			'x': 0,
-			'y': 0,
-			'width': 300,
-			'height': 400, 
-			'extractedImageUrl': 'dummyImages/bikeExtracted.jpg',
-			'similarImagesUrls': [
-				"dummyImages/bike1.png",
-				"dummyImages/bike2.png"
-			]
-		}, {
-			'type': 'apple',
-			'x': 600,
-			'y': 600,
-			'width': 500,
-			'height': 500,
-			'extractedImageUrl': 'dummyImages/appleExtracted.jpg',
-			'similarImagesUrls': [
-				"dummyImages/apple1.png",
-				"dummyImages/apple2.png"
-			]
-		}]
-	});
+//	callback({
+//		'foundObjects': [{
+//			'type': 'bike',
+//			'x': 0,
+//			'y': 0,
+//			'width': 300,
+//			'height': 400, 
+//			'extractedImageUrl': 'dummyImages/bikeExtracted.jpg',
+//			'similarImagesUrls': [
+//				"dummyImages/bike1.png",
+//				"dummyImages/bike2.png"
+//			]
+//		}, {
+//			'type': 'apple',
+//			'x': 600,
+//			'y': 600,
+//			'width': 500,
+//			'height': 500,
+//			'extractedImageUrl': 'dummyImages/appleExtracted.jpg',
+//			'similarImagesUrls': [
+//				"dummyImages/apple1.png",
+//				"dummyImages/apple2.png"
+//			]
+//		}]
+//	});
 }
