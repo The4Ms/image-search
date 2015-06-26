@@ -1,16 +1,26 @@
 // To be implemented by salah 
 function loadSearchImageAsBinary(inputControl){
-var imgReq = new XMLHttpRequest();
-imgReq.open("GET", inputControl, true);
-imgReq.responseType = "arraybuffer";
+var can = document.getElementById('canvas1'); 
+var ctx = can.getContext('2d'); 
+var img = new Image(); 
+img.src = inputControl; 
+img.onload = function ()
+{ can.width = img.width; 
+can.height = img.height; 
+ctx.drawImage(img, 0, 0, img.width, img.height); 
+} 
+var xhr = new XMLHttpRequest();
+xhr.open('GET', inputControl, true);
+xhr.responseType = 'arraybuffer';
 
-imgReq.onload = function (oEvent) {
-  var arrayBuffer = imgReq.response; 
-  if (arrayBuffer) {
-    var byteArray = new Uint8Array(arrayBuffer);
-  }
+xhr.onload = function(e) {
+  
+  var responseArray = new Uint8Array(this.response); 
 };
-return byteArray;
+
+xhr.send();
+//ctx.drawImage(img, 0, 0, img.width, img.height); 
+ return responseArray; 
 }
 
 // To be implemented by salah 
@@ -28,7 +38,7 @@ var can = document.getElementById('canvas');
 		  
 };
        var dataURL = canvas.toDataURL(inputControl);
-       alert( dataURL.replace(/^data:image\/(png|jpg);base64,/, ""));
+       //alert( dataURL.replace(/^data:image\/(png|jpg);base64,/, ""));
 	   return dataURL;
 }
 

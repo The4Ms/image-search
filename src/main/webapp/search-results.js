@@ -1,9 +1,7 @@
-
-// To be implemented by yusuf 
+ 
 function showResults(results){
 	var foundObjects = results.foundObjects;
-
-	// this to show you the structure of the results object
+	document.getElementById('results');
 
 	for(var i=0; i<foundObjects.length; i++){
 		var object = foundObjects[i];
@@ -12,13 +10,28 @@ function showResults(results){
 		var extractedImageUrl = object.extractedImageUrl;
 		var similarImagesUrls  = object.similarImagesUrls;
 
-		console.log('object no ' + i);
-		console.log('type: ' + type);
-		console.log('extractedImageUrl: ' + extractedImageUrl);
-		console.log('similarImagesUrls: ');
-
-		for(var j=0; j<similarImagesUrls.length; j++){
-			console.log(similarImagesUrls[j]);
-		}
+	var showData=document.createElement('div');
+	var typeData=document.createElement('h1');
+	typeData.innerHtml=type;
+	alert("ssas");
+	showData.appendChild(typeData);
+	
+	var extractedimg=document.createElement('img');
+	extractedimg.src=extractedImageUrl;
+	showData.appendChild(extractedimg);
+	alert("ssasasaas");
+	for(var j=0; j<similarImagesUrls.length; j++){
+			var sim_arr=similarImagesUrls[j];
+		alert("aaaa");
+	var similarimg=document.createElement('h2');
+		similarimg.innerHtml=sim_arr;
+		similarimg.src=similarImagesUrls;
+		similarimg.push(sim_arr);
+		showData.appendChild(similarimg);
+	}	
+		alert("cc");
+	results.appendChild(showData);
+	
 	}
+		
 }
