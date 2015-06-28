@@ -1,20 +1,21 @@
 package grad.project.webservice;
 
+import grad.proj.classification.FeatureVector;
+
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.AbstractList;
-import java.util.List;
+import java.util.Iterator;
 
-public class RetrievalItem extends AbstractList<Double> implements Comparable<RetrievalItem>, Serializable {
+public class RetrievalItem implements Comparable<RetrievalItem>, Serializable, FeatureVector {
 
 	private static final long serialVersionUID = -3082823238024187424L;
 	
 	Rectangle bounds;
-	List<Double> featureVector;
+	FeatureVector featureVector;
 	String imageFile;
 	
 	
-	public RetrievalItem(Rectangle bounds, List<Double> featureVector,
+	public RetrievalItem(Rectangle bounds, FeatureVector featureVector,
 			String imageFile) {
 		super();
 		this.bounds = bounds;
@@ -32,12 +33,12 @@ public class RetrievalItem extends AbstractList<Double> implements Comparable<Re
 	}
 
 
-	public List<Double> getFeatureVector() {
+	public FeatureVector getFeatureVector() {
 		return featureVector;
 	}
 
 
-	public void setFeatureVector(List<Double> featureVector) {
+	public void setFeatureVector(FeatureVector featureVector) {
 		this.featureVector = featureVector;
 	}
 
@@ -62,13 +63,23 @@ public class RetrievalItem extends AbstractList<Double> implements Comparable<Re
 	}
 
 	@Override
-	public Double get(int index) {
+	public double get(int index) {
 		return featureVector.get(index);
 	}
 
 	@Override
 	public int size() {
 		return featureVector.size();
+	}
+
+	@Override
+	public Iterator<Double> iterator() {
+		return featureVector.iterator();
+	}
+
+	@Override
+	public void set(int index, double element) {
+		featureVector.set(index, element);
 	}
 	
 }

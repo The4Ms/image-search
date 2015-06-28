@@ -5,8 +5,10 @@ import grad.proj.localization.impl.BranchAndBoundObjectLocalizer;
 import grad.proj.localization.impl.MaxRectangleQualityFunction;
 import grad.proj.matching.Matcher;
 import grad.proj.matching.MeanSquareErrorMatcher;
+import grad.proj.classification.Classifier;
+import grad.proj.classification.FeatureVector;
 import grad.proj.classification.FeatureVectorGenerator;
-import grad.proj.classification.ImageClassifier;
+import grad.proj.classification.FeatureVectorImageClassifier;
 import grad.proj.utils.DataSetLoader;
 import grad.proj.utils.imaging.Image;
 import grad.proj.utils.imaging.ImageLoader;
@@ -29,11 +31,11 @@ public class SearchHandler {
 	
 	private FeatureVectorGenerator generator;
 	
-	private ImageClassifier classifier;
+	private Classifier<Image> classifier;
 	
 	private ObjectsLocalizer localizer;
 	
-	private Matcher<List<Double>> matcher;
+	private Matcher<FeatureVector> matcher;
 
 	private DB db;
 
@@ -51,7 +53,7 @@ public class SearchHandler {
 			classifier = dataSetLoader.loadTrainedClassifier();			
 		}
 		
-		generator = classifier.getFeatureVectorGenerator();
+		generator = ((FeatureVectorImageClassifier) classifier).getFeatureVectorGenerator();
 		
 		localizer = new ObjectsLocalizer(new BranchAndBoundObjectLocalizer(new MaxRectangleQualityFunction()), classifier);
 		
@@ -78,8 +80,10 @@ public class SearchHandler {
 			for(Entry<String, Rectangle> foundObj : objectsBounds.entrySet()){
 				String className = foundObj.getKey();
 				Rectangle bounds = foundObj.getValue();
+				if(image == null)
+					continue;
 				Image foundSubImage = new SubImage(image, bounds.x, bounds.y, bounds.width, bounds.height);
-				List<Double> featureVector = generator.generateFeatureVector(foundSubImage);
+				FeatureVector featureVector = generator.generateFeatureVector(foundSubImage);
 				
 				Set<RetrievalItem> classDb = db.getHashSet(className);
 				classDb.add(new RetrievalItem(bounds, featureVector, imageFile.getName()));
@@ -105,7 +109,7 @@ public class SearchHandler {
 			
 			Image objectImage = new SubImage(image, bounds.x, bounds.y, bounds.width, bounds.height);
 			
-			List<Double> objectImageFeature = generator.generateFeatureVector(objectImage);
+			FeatureVector objectImageFeature = generator.generateFeatureVector(objectImage);
 			Set<RetrievalItem> classDb = db.getHashSet(classLabel);
 			
 			List<RetrievalItem> topMatches = matcher.match(objectImageFeature, classDb, 5);
