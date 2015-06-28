@@ -1,6 +1,5 @@
 package grad.project.webservice;
 
-import java.awt.Rectangle;
 import java.util.List;
 
 public class FoundObject {

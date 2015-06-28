@@ -3,11 +3,7 @@ package grad.project.webservice;
 import grad.proj.utils.imaging.Image;
 import grad.proj.utils.imaging.ImageLoader;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Arrays;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
