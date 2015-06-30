@@ -47,27 +47,27 @@ function doSearchRequest(imageInputControl, callback){
 	// return dummy data to be used in implementation
 	// extractedImageUrl should be added after splitting images, it is put here so that search-results work don't wait for image-split work
 //	callback({
-//		'foundObjects': [{
-//			'type': 'bike',
-//			'x': 0,
-//			'y': 0,
-//			'width': 300,
-//			'height': 400, 
-//			'extractedImageUrl': 'dummyImages/bikeExtracted.jpg',
-//			'similarImagesUrls': [
-//				"dummyImages/bike1.png",
-//				"dummyImages/bike2.png"
-//			]
-//		}, {
-//			'type': 'apple',
+//		'foundObjects': [ {
+//			'className': 'apple',
 //			'x': 600,
 //			'y': 600,
 //			'width': 500,
 //			'height': 500,
 //			'extractedImageUrl': 'dummyImages/appleExtracted.jpg',
-//			'similarImagesUrls': [
+//			'similarImagesPaths': [
 //				"dummyImages/apple1.png",
 //				"dummyImages/apple2.png"
+//			]
+//		},{
+//			'className': 'bike',
+//			'x': 0,
+//			'y': 0,
+//			'width': 300,
+//			'height': 400, 
+//			'extractedImageUrl': 'dummyImages/bikeExtracted.jpg',
+//			'similarImagesPaths': [
+//				"dummyImages/bike1.png",
+//				"dummyImages/bike2.png"
 //			]
 //		}]
 //	});

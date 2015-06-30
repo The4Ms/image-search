@@ -4,6 +4,14 @@
 	<script src="search-results.js"></script>
 	<script src="image-split.js"></script>
 	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.2/mustache.js"></script>
+	
 	<script>
 		function onSubmitSearch(){
 			try{
@@ -33,24 +41,56 @@
 			return false;
 		}
 	</script>
+	
+	<script id="resultTemplate" type="x-tmpl-mustache">
+	{{#foundObjects}}
+	<div>
+		<div class="col-md-10 col-md-offset-1">
+			<h1 class="page-header">{{ className }}</h1>
+			<a class="thumbnail"  href="{{extractedImageUrl}}" target="_blank">
+				<img src="{{extractedImageUrl}}">
+			</a>
+			
+			<div class="panel panel-default">
+			  <div class="panel-heading">Similar Images</div>
+			  <div class="panel-body">
+			    
+				{{#similarImagesPaths}}
+				<div class="col-md-2">
+					<a href="{{.}}" target="_blank" class="thumbnail">
+					<img src="{{.}}">
+					</a>
+				</div>
+				{{/similarImagesPaths}}
+			  </div>
+			</div>
+		</div>
+	</div>
+	{{/foundObjects}}
+		
+	</script>
+	
 </head>
 
 <body>
-	<h2>Search by image</h2>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="text-center">
+				<h1 class="">The4Ms</h1>
+				<h2 class=""><small>Image Content Search</small></h2>
+			</div>
+			<form id='searchForm' onsubmit="return onSubmitSearch()">
+				<div class="input-group">
+			   		<input type="file" class="form-control" name="image" id="image" type="file" ">
+			   		<span class="input-group-btn">
+			     		<button class="btn btn-default" type="submit">Search</button>
+			   		</span>
+			 	</div>
+			</form>
+	  </div>
+	</div>
 	
-	<form id='searchForm' onsubmit="return onSubmitSearch()">
-		<input name="image" id="image" type="file" size="45" />
-		<button type="submit">Search</button>
-	</form>
-
 	<div id="results">
 	</div>
-
-	<h2>USED IN TESTING THE SERVICE AND WILL BE REMOVED</h2>
-	
-	<form action="rest/search" method="POST" enctype="multipart/form-data">
-		<input name="image" id="image" type="file" size="45" />
-		<button type="submit">Search</button>
-	</form>
 </body>
 </html>
