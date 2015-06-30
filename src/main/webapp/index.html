@@ -13,27 +13,55 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.2/mustache.js"></script>
 	
 	<script>
+		function hideStatus(){
+			var errAlertTag = document.getElementById("statusAlert");
+			errAlertTag.style.display = 'none';
+		}
+		
+		function showStatus(title, message){
+			var errAlertTag = document.getElementById("statusAlert");
+			errAlertTag.style.display = 'initial';
+			
+			var errTitleTag = document.getElementById("statusTitle");
+			var errMessageTag = document.getElementById("statusMessage");
+			errTitleTag.innerHTML = title || "";
+			errMessageTag.innerHTML = message || "";
+		}
+		
 		function onSubmitSearch(){
 			try{
+				hideStatus();
 				var imageInputControl = document.getElementById('image');
 				var searchImage = new Image();
+				
+				if(imageInputControl.files.length == 0){
+					showStatus("No file selected!", "Please select an image.");
+				}
+				else{
+					loadSearchImageAsDataURI(imageInputControl, searchImage, function(){
+						showStatus("<img src='loading.gif'> Uploading and processing image!", "Please wait this may take a while.");
 
-				loadSearchImageAsDataURI(imageInputControl, searchImage, function(){
+						// send request to the server
+						doSearchRequest(imageInputControl, function(searchResults){
+							if(searchResults) {
+								hideStatus();
+								
+								// split the objects found in the search image 
+								for(var i=0; i<searchResults.foundObjects.length; i++){
+									var objectBounds = searchResults.foundObjects[i];
+									var splittedImageDataURI = getSubImage(searchImage, objectBounds);
 
-					// send request to the server
-					doSearchRequest(imageInputControl, function(searchResults){
+									searchResults.foundObjects[i].extractedImageUrl = splittedImageDataURI;
+								}
 
-						// split the objects found in the search image 
-						for(var i=0; i<searchResults.foundObjects.length; i++){
-							var objectBounds = searchResults.foundObjects[i];
-							var splittedImageDataURI = getSubImage(searchImage, objectBounds);
-
-							searchResults.foundObjects[i].extractedImageUrl = splittedImageDataURI;
-						}
-
-						showResults(searchResults);
+								showResults(searchResults);
+							}
+							else {
+								showStatus("Error!", "");
+							}
+						});
 					});
-				});
+				}
 			}
 			catch(e){
 				console.log(e);
@@ -87,9 +115,18 @@
 			   		</span>
 			 	</div>
 			</form>
+			<div id="statusAlert" style="display:none;" >
+				<div class="alert alert-warning" role="alert">
+					<p>
+						<strong id="statusTitle"></strong> <span id="statusMessage"></span>
+					</p>
+				</div>
+			</div>
 	  </div>
 	</div>
 	
+	
+
 	<div id="results">
 	</div>
 </body>

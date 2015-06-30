@@ -36,10 +36,16 @@ function doSearchRequest(imageInputControl, callback){
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', 'rest/search/', true);
+	xhr.onerror = function(err){
+		callback();
+	}
 	xhr.onload = function(){
 		if(xhr.status == 200){
 			var searchResult = JSON.parse(xhr.responseText);
 			callback(searchResult);
+		}
+		else{
+			callback();
 		}
 	};
 	xhr.send(data);
