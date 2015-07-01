@@ -4,6 +4,9 @@ var getSubImage = (function(){
 	var context = canvas.getContext('2d');
 
 	return function(image, bounds){
+		canvas.width = bounds.width;
+		canvas.height = bounds.height;
+		
 		// draw cropped image on the canvas
 		context.drawImage(image, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
 
