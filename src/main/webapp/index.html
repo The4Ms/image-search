@@ -32,7 +32,7 @@
 			try{
 				hideStatus();
 				var imageInputControl = document.getElementById('image');
-				var searchImage = new Image();
+				var searchImage = document.getElementById('previewImage');
 				
 				if(imageInputControl.files.length == 0){
 					showStatus("No file selected!", "Please select an image.");
@@ -125,7 +125,10 @@
 	  </div>
 	</div>
 	
-	
+	<div class="col-md-10 col-md-offset-1">
+		<h1 class="page-header">Search image</h1>
+		<img id="previewImage">
+	</div>
 
 	<div id="results">
 	</div>
